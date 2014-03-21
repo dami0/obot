@@ -1,0 +1,4 @@
+obot
+====
+
+OSRIC bot
