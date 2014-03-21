@@ -18,27 +18,49 @@ import irc.client
 import urllib2
 import json
 import datetime
-import pytz
+import random
+#import pytz
 from math import floor
-from BeautifulSoup import BeautifulSoup
+#from BeautifulSoup import BeautifulSoup
 
 settings = {
     'prefix': "!",              # command prefix
+    'dicepre' : ".",            # dice prefix
     'host': "irc.iotek.org",    # irc server address
     'port': 6667,               # irc server port
     'nick': "obot",             # nickname
     'user': "o",                # username
     'real': "OSRICbot",         # realname
-    'ssl' : True,               # use SSL?
-#    'ssl' : False,              # use SSL?
+#    'ssl' : True,               # use SSL?
+    'ssl' : False,              # use SSL?
     'chans': [ '#d20' ],        # channels to join on connect
-    'ns_pass': "",              # set to None for no auth
+    'ns_pass': "",    # set to None for no auth
 }
 
-def proc_cmd (c, e):
+def proc_die (c, e):
 
-    cmd =  e.arguments[0][1:]
-    t   = (e.arguments[0].encode)
+    msg  = ""
+    cmd  = e.arguments[0][1:]
+    t    = (e.arguments[0].encode("ascii", "ignore")).split(' ')
+    nick = e.source.nick.encode("ascii", "ignore")
+
+#    if t[0][2] == "d" and len(t) > 1:
+
+    if 3 > len(t) > 1:
+        t[0] = t[0][1:]
+        msg = dice(int(t[0]), int(t[1]))
+
+    c.privmsg(e.target, "%s" % msg)
+
+def dice (top, fail):
+        random.seed()
+        roll = random.randint(1, top)
+        veri = roll - fail
+        roll = str(roll)
+        if veri > -1:  outcome = "success: " + roll
+        elif veri < 0: outcome = "fail: " + roll
+        return outcome
+    
 
 def on_connect (c, e):
 
@@ -58,6 +80,8 @@ def on_pubmsg (c, e) :
 
     if e.arguments[0].startswith(settings['prefix']):
         proc_cmd(c, e)
+    elif e.arguments[0].startswith(settings['dicepre']):
+        proc_die(c, e)
 
 if (__name__ == '__main__'):
     # ssl?
