@@ -43,6 +43,7 @@ def proc_die (c, e):
     cmd  = e.arguments[0][1:]
     t    = (e.arguments[0].encode("ascii", "ignore")).split(' ')
     nick = e.source.nick.encode("ascii", "ignore")
+    random.seed()
 
     if t[0][2] == "d" and len(t) > 1:
         i = int(t[0][1])
@@ -60,7 +61,6 @@ def proc_die (c, e):
     if msg: c.privmsg(e.target, "%s" % msg)
 
 def dice (top, fail):
-        random.seed()
         roll = random.randint(1, top)
         veri = roll - fail
         roll = str(roll)
