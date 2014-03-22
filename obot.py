@@ -42,34 +42,44 @@ def proc_die (c, e):
     msg  = ""
     cmd  = e.arguments[0][1:]
     t    = (e.arguments[0].encode("ascii", "ignore")).split(' ')
+    t[0] = t[0][1:]
     nick = e.source.nick.encode("ascii", "ignore")
     random.seed()
 
-    if 'd' in t[0] and len(t) > 1:
-        i = int(t[0].split('d')[0][1:])
-        t[0] = int(t[0].split('d')[1])
-        t[1] = int(t[1])
-        msg = []
-        for x in range(0, i):
-            msg.append(dice(int(t[0]), int(t[1])))
-        for res in msg:
-            c.privmsg(e.target, res)
-        msg = ""
-    elif 3 > len(t) > 1:
-        t[0] = int(t[0][1:])
-        t[1] = int(t[1])
-        msg = dice(int(t[0]), int(t[1]))
+    if 'd' in t[0] and 3 > len(t):
+        wins = 0; rolls = []
+        t = extract(t)
+        print(t)
+        if t == None: return
+        for x in range(0, t[0]):
+            rolls.append(random.randint(1, t[1]))
+            if rolls[-1] >= t[2]: wins += 1
+        rolls = ', '.join(str(x) for x in rolls)
+        if   t[0] == 1 and wins == 1: msg = "Success; "
+        elif t[0] == 1 and wins == 0: msg =  "Fail; "
+        elif t[0] > 1: msg = str(wins) + " successes; "
+        if   t[2] == 0: msg = rolls
+        msg = msg + rolls + "."
 
-    if msg: c.privmsg(e.target, "%s" % msg)
+    if msg: c.privmsg(e.target, msg)
 
-def dice (top, fail):
-        roll = random.randint(1, top)
-        veri = roll - fail
-        roll = str(roll)
-        if veri > -1:  outcome = "success: " + roll
-        elif veri < 0: outcome = "fail: " + roll
-        return outcome
-    
+def extract (raw):
+    try:
+        stuff = []
+        i = raw[0].split('d')[0]
+        if len(i) > 0: stuff.append(int(i))
+        elif len(i) < 1 or int(i) < 1: stuff.append(1) 
+        raw[0] = raw[0].split('d')[1]
+        if raw[0] < 1: return
+        stuff.append(int(raw[0]))
+        if len(raw) > 1:
+            if raw[1] < 0: raw[1] = 0
+            if raw[1] > raw[0]: return
+            if raw[1]: stuff.append(int(raw[1]))
+        else: stuff.append(0)
+        return stuff
+    except: return None
+
 
 def on_connect (c, e):
 
