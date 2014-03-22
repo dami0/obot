@@ -55,11 +55,12 @@ def proc_die (c, e):
             rolls.append(random.randint(1, t[1]))
             if rolls[-1] >= t[2]: wins += 1
         rolls = ', '.join(str(x) for x in rolls)
-        if   t[0] == 1 and wins == 1: msg = "Success; "
-        elif t[0] == 1 and wins == 0: msg =  "Fail; "
-        elif t[0] > 1: msg = str(wins) + " successes; "
-        if   t[2] == 0: msg = rolls
-        msg = msg + rolls + "."
+        print rolls
+        if t[2] > 0:
+            if   t[0] == 1 and wins == 1: msg = "Success; "
+            elif t[0] == 1 and wins == 0: msg =  "Fail; "
+            elif t[0] > 1: msg = str(wins) + " successes; "
+        msg = msg + rolls
 
     if msg: c.privmsg(e.target, msg)
 
