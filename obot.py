@@ -44,13 +44,20 @@ def proc_die (c, e):
     t    = (e.arguments[0].encode("ascii", "ignore")).split(' ')
     nick = e.source.nick.encode("ascii", "ignore")
 
-#    if t[0][2] == "d" and len(t) > 1:
-
-    if 3 > len(t) > 1:
+    if t[0][2] == "d" and len(t) > 1:
+        i = int(t[0][1])
+        t[0] = t[0][3:]
+        msg = []
+        for x in range(0, i):
+            msg.append(dice(int(t[0]), int(t[1])))
+        for res in msg:
+            c.privmsg(e.target, res)
+        msg = ""
+    elif 3 > len(t) > 1:
         t[0] = t[0][1:]
         msg = dice(int(t[0]), int(t[1]))
 
-    c.privmsg(e.target, "%s" % msg)
+    if msg: c.privmsg(e.target, "%s" % msg)
 
 def dice (top, fail):
         random.seed()
