@@ -15,13 +15,9 @@ import sys
 import time
 import ssl
 import irc.client
-import urllib2
 import json
 import datetime
 import random
-#import pytz
-from math import floor
-#from BeautifulSoup import BeautifulSoup
 
 settings = {
     'prefix': "!",              # command prefix
