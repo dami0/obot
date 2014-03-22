@@ -68,7 +68,7 @@ def read_character_sheet(s):
         lvl  = decoded["lvl"]
         age  = decoded["age"]
         hght = decoded["height"]
-        wght = decoded["wght"]
+        wght = decoded["weight"]
         sex  = decoded["sex"]
         attr = "hi"
         return play_char(name,
