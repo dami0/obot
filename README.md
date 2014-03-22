@@ -7,7 +7,6 @@ This is a bot to perform various tasks for automation of an OSRIC game.
 
 So far it contains:
 
-
 Dice roll - called by ".x y z" where:
 
 x is the number of sides,
