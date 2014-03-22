@@ -56,8 +56,26 @@ class play_char:
 def read_character_sheet(s):
 
         f = open(s)
-        print json.load(f)
+        decoded = json.load(f)
         f.close()
+        name = decoded["name"]
+		clas = decoded["class"]
+        algn = decoded["alignment"]
+        race = decoded["race"]
+        xp   = decoded["xp"]
+        hp   = decoded["hp"]
+        ac   = decoded["ac"]
+        lvl  = decoded["lvl"]
+        age  = decoded["age"]
+        hght = decoded["height"]
+        wght = decoded["wght"]
+        sex  = decoded["sex"]
+        attr = "hi"
+        return play_char(name,
+               clas, algn, race,
+               xp, hp, ac, lvl,
+               age, hght, wght,
+               sex, attr)
 
 def proc_die (c, e):
 
