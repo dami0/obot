@@ -11,13 +11,13 @@
 
 """
 
-import sys
-import time
-import ssl
-import irc.client
+#import sys
+#import time
+#import ssl
+#import irc.client
 import json
-import datetime
-import random
+#import datetime
+#import random
 
 settings = {
     'prefix': "!",              # command prefix
@@ -38,7 +38,7 @@ class play_char:
     player_count = 0
 
     def __init__(self, name, clas, algn, race, xp, hp, ac, lvl, age, hght, wght,
-            sex, attr)
+            sex, attr):
         self.name = name
         self.clas = clas
         self.algn = algn
@@ -53,6 +53,11 @@ class play_char:
         self.sex  = sex
         self.attr = attr
 
+def read_character_sheet(s):
+
+        f = open(s)
+        print json.load(f)
+        f.close()
 
 def proc_die (c, e):
 
@@ -122,6 +127,9 @@ def on_pubmsg (c, e) :
         proc_die(c, e)
 
 if (__name__ == '__main__'):
+
+    read_character_sheet("/home/alex/kirby.sheet")
+    '''
     # ssl?
     ssl_factory = irc.connection.Factory(wrapper=ssl.wrap_socket) if (
     settings['ssl']) else None
@@ -156,3 +164,4 @@ if (__name__ == '__main__'):
     # other handlers
 
     client.process_forever()
+    '''
