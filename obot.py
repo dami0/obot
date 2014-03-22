@@ -37,6 +37,27 @@ settings = {
     'ns_pass': "",    # set to None for no auth
 }
 
+class play_char:
+    'This is the class for the player characters'
+    player_count = 0
+
+    def __init__(self, name, clas, algn, race, xp, hp, ac, lvl, age, hght, wght,
+            sex, attr)
+        self.name = name
+        self.clas = clas
+        self.algn = algn
+        self.race = race
+        self.xp   = xp
+        self.hp   = hp
+        self.ac   = ac
+        self.lvl  = lvl
+        self.age  = age
+        self.hght = hght
+        self.wght = wght
+        self.sex  = sex
+        self.attr = attr
+
+
 def proc_die (c, e):
 
     if e.target == '#nixers': return
