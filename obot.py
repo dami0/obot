@@ -38,7 +38,7 @@ class play_char:
     player_count = 0
 
     def __init__(self, name, clas, algn, race, xp, hp, ac, lvl, age, hght, wght,
-            sex, attr)
+            sex, attr):
         self.name = name
         self.clas = clas
         self.algn = algn
