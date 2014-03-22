@@ -37,13 +37,14 @@ class play_char:
     'This is the class for the player characters'
     player_count = 0
 
-    def __init__(self, name, clas, algn, race, xp, hp, ac, lvl, age, hght, wght,
-            sex, attr):
+    def __init__(self, name, clas, algn, race, xp, gold, hp, ac, lvl, age, hght,
+            wght, sex, attr):
         self.name = name
         self.clas = clas
         self.algn = algn
         self.race = race
         self.xp   = xp
+        self.gold = gold
         self.hp   = hp
         self.ac   = ac
         self.lvl  = lvl
@@ -66,6 +67,7 @@ def read_character_sheet(s):
         algn = decoded["alignment"]
         race = decoded["race"]
         xp   = decoded["xp"]
+        gold = decoded["gold"]
         hp   = decoded["hp"]
         ac   = decoded["ac"]
         lvl  = decoded["lvl"]
