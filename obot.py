@@ -39,6 +39,8 @@ settings = {
 
 def proc_die (c, e):
 
+    if e.target == '#nixers': return
+    
     msg  = ""
     cmd  = e.arguments[0][1:]
     t    = (e.arguments[0].encode("ascii", "ignore")).split(' ')
@@ -46,38 +48,37 @@ def proc_die (c, e):
     nick = e.source.nick.encode("ascii", "ignore")
     random.seed()
 
-    if 'd' in t[0] and 3 > len(t):
+    if 4 > len(t) > 0:
         wins = 0; rolls = []
         t = extract(t)
         print(t)
         if t == None: return
-        for x in range(0, t[0]):
-            rolls.append(random.randint(1, t[1]))
-            if rolls[-1] >= t[2]: wins += 1
+        for x in range(0, t[2]):
+            rolls.append(random.randint(1, t[0]))
+            if rolls[-1] >= t[1]: wins += 1
         rolls = ', '.join(str(x) for x in rolls)
-        print rolls
-        if t[2] > 0:
-            if   t[0] == 1 and wins == 1: msg = "Success; "
-            elif t[0] == 1 and wins == 0: msg =  "Fail; "
-            elif t[0] > 1: msg = str(wins) + " successes; "
+        if t[1] > 0:
+            if   t[2] == 1 and wins == 1: msg = "Success; "
+            elif t[2] == 1 and wins == 0: msg =  "Fail; "
+            elif t[2] > 1: msg = str(wins) + " successes; "
         msg = msg + rolls
 
-    if msg: c.privmsg(e.target, msg)
+    if msg: 
+        msg = nick + ": " + msg
+        c.privmsg(e.target, msg)
 
 def extract (raw):
     try:
         stuff = []
-        i = raw[0].split('d')[0]
-        if len(i) > 0: stuff.append(int(i))
-        elif len(i) < 1 or int(i) < 1: stuff.append(1) 
-        raw[0] = raw[0].split('d')[1]
-        if raw[0] < 1: return
-        stuff.append(int(raw[0]))
-        if len(raw) > 1:
-            if raw[1] < 0: raw[1] = 0
-            if raw[1] > raw[0]: return
-            if raw[1]: stuff.append(int(raw[1]))
-        else: stuff.append(0)
+        print(raw)
+        for lmnt in raw:
+            if len(lmnt) > 0: stuff.append(int(lmnt))
+        print("stuff: " + ', '.join(str(x) for x in stuff))
+        if len(stuff) < 2: stuff.append(0)
+        if len(stuff) < 3: stuff.append(1)
+        if stuff[1] < 0: stuff[1] = 0
+        if stuff[1] > stuff[0]: return None
+        if stuff[2] < 0: stuff[2] = 1
         return stuff
     except: return None
 
