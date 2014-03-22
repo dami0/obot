@@ -59,7 +59,7 @@ def read_character_sheet(s):
         decoded = json.load(f)
         f.close()
         name = decoded["name"]
-		clas = decoded["class"]
+        clas = decoded["class"]
         algn = decoded["alignment"]
         race = decoded["race"]
         xp   = decoded["xp"]
